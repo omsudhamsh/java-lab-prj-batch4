@@ -28,22 +28,47 @@ public class RegistrationService {
                 case 1 -> viewExams();
                 case 2 -> registerExam();
                 case 3 -> viewRegistered();
+                case 0 -> System.out.println("Logging out...");
+                default -> System.out.println("❌ Invalid choice. Please try again.");
             }
         } while (choice != 0);
     }
 
     private void viewExams() {
-        for (Exam e : ExamService.getExams()) {
+        ArrayList<Exam> exams = ExamService.getExams();
+        if (exams.isEmpty()) {
+            System.out.println("⚠️ No exams available at the moment.");
+            return;
+        }
+        
+        System.out.println("📘 Available Exams:");
+        for (Exam e : exams) {
             System.out.println(e);
         }
     }
 
     private void registerExam() {
+        ArrayList<Exam> availableExams = ExamService.getExams();
+        if (availableExams.isEmpty()) {
+            System.out.println("⚠️ No exams available for registration.");
+            return;
+        }
+        
         int id = InputUtil.getInt("Enter Exam ID to Register: ");
-        for (Exam e : ExamService.getExams()) {
+        
+        // Check if already registered
+        for (Exam e : registeredExams) {
+            if (e.getExamId() == id) {
+                System.out.println("⚠️ You are already registered for this exam.");
+                return;
+            }
+        }
+        
+        // Check if exam exists and register
+        for (Exam e : availableExams) {
             if (e.getExamId() == id) {
                 registeredExams.add(e);
-                System.out.println("✅ Registered for " + e.getSubject());
+                System.out.println("✅ Successfully registered for " + e.getSubject());
                 return;
             }
         }
@@ -51,7 +76,12 @@ public class RegistrationService {
     }
 
     private void viewRegistered() {
-        System.out.println("🗂️ Registered Exams:");
+        if (registeredExams.isEmpty()) {
+            System.out.println("⚠️ You have not registered for any exams yet.");
+            return;
+        }
+        
+        System.out.println("🗂️ Your Registered Exams:");
         for (Exam e : registeredExams) {
             System.out.println(e);
         }

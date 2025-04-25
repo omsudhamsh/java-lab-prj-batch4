@@ -16,6 +16,11 @@ public class Main {
             int choice = InputUtil.getInt("Enter choice: ");
             if (choice == 0) break;
 
+            if (choice != 1 && choice != 2) {
+                System.out.println("❌ Invalid choice. Please select 1, 2, or 0.");
+                continue;
+            }
+
             String name = InputUtil.getString("Enter Name: ");
             String email = InputUtil.getString("Enter Email: ");
 
@@ -25,7 +30,10 @@ public class Main {
                 default -> null;
             };
 
-            if (user != null) user.showMenu();
+            if (user != null) {
+                System.out.println("✅ Login successful!");
+                user.showMenu();
+            }
         }
 
         System.out.println("👋 Thank you for using the system.");
