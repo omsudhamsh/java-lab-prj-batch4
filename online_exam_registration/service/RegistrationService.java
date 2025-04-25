@@ -86,4 +86,31 @@ public class RegistrationService {
             System.out.println(e);
         }
     }
+    
+    // New methods for GUI
+    
+    public ArrayList<Exam> getRegisteredExams() {
+        return registeredExams;
+    }
+    
+    public boolean registerForExamById(int examId) {
+        ArrayList<Exam> availableExams = ExamService.getExams();
+        
+        // Check if already registered
+        for (Exam e : registeredExams) {
+            if (e.getExamId() == examId) {
+                return false; // Already registered
+            }
+        }
+        
+        // Find and register exam
+        for (Exam exam : availableExams) {
+            if (exam.getExamId() == examId) {
+                registeredExams.add(exam);
+                return true; // Successfully registered
+            }
+        }
+        
+        return false; // Exam not found
+    }
 }

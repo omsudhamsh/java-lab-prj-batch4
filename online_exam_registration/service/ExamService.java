@@ -81,4 +81,28 @@ public class ExamService {
         
         System.out.println("❌ Exam ID not found.");
     }
+    
+    // New methods for GUI
+    
+    public boolean addExam(int id, String subject, String date) {
+        // Check if ID already exists
+        for (Exam e : examList) {
+            if (e.getExamId() == id) {
+                return false; // ID exists
+            }
+        }
+        
+        examList.add(new Exam(id, subject, date));
+        return true; // Successfully added
+    }
+    
+    public boolean removeExam(int id) {
+        for (int i = 0; i < examList.size(); i++) {
+            if (examList.get(i).getExamId() == id) {
+                examList.remove(i);
+                return true; // Successfully removed
+            }
+        }
+        return false; // ID not found
+    }
 }
